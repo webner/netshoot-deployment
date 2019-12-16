@@ -1,0 +1,27 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: netshoot
+  labels:
+    app: netshoot
+spec:
+  strategy:
+    type: Recreate
+  triggers:
+    - type: ConfigChange
+  replicas: 1
+  selector:
+    app: netshoot
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: netshoot
+    spec:
+      containers:
+        - stdin: true
+          name: netshoot
+          tty: true
+          image: nicolaka/netshoot
+          args:
+            - /bin/bash
